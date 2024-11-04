@@ -1,0 +1,14 @@
+{
+  "builds": [
+    {
+      "src": "personal_finance_manager/wsgi.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "personal_finance_manager/wsgi.py"
+    }
+  ]
+}
