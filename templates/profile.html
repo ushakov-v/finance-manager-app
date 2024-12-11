@@ -42,6 +42,16 @@
                 <a href="javascript:history.back();" class="btn btn-secondary">Отменить</a>
             </div>
         </form>
+
+        <!-- Форма для удаления профиля -->
+        <form method="post" action="{% url 'delete_profile' %}" class="delete-profile-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить свой профиль? Это действие необратимо.')">
+                    Удалить профиль
+                </button>
+            </div>
+        </form>
     </div>
 </body>
 </html>

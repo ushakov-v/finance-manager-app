@@ -61,14 +61,23 @@ class TransactionForm(forms.ModelForm):
         self.fields['category_expense'].choices = [('', 'Выберите категорию')] + list(
             self.fields['category_expense'].choices)
 
+        # Вызов метода для обновления категорий в зависимости от типа транзакции
+        transaction_type = self.data.get('transaction_type', None)  # Получаем тип транзакции
+        if transaction_type:
+            self._set_category_choices(transaction_type)
+
     def _set_category_choices(self, transaction_type):
         """Обновление списка категорий в зависимости от типа транзакции"""
         if transaction_type == 'income':
-            self.fields['category'].choices = Transaction.CATEGORY_INCOME
+            self.fields['category_expense'].choices = []  # Очищаем категории расходов, если доход
+            self.fields['category_income'].choices = Transaction.CATEGORY_INCOME
         elif transaction_type == 'expense':
-            self.fields['category'].choices = Transaction.CATEGORY_EXPENSE
+            self.fields['category_income'].choices = []  # Очищаем категории доходов, если расход
+            self.fields['category_expense'].choices = Transaction.CATEGORY_EXPENSE
         else:
-            self.fields['category'].choices = []
+            self.fields['category_income'].choices = []
+            self.fields['category_expense'].choices = []
+
 
 class UserRegistrationForm(UserCreationForm):
     class Meta:

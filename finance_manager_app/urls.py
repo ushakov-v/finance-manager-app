@@ -19,7 +19,7 @@ from django.shortcuts import render
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import TransactionViewSet, transactions_view, add_transaction, edit_transaction, delete_transaction, \
-    transaction_list, profile_view
+    transaction_list, profile_view, delete_profile
 from .views import get_balance
 from .views import register_view, login_view, logout_view
 
@@ -40,6 +40,7 @@ urlpatterns = [
     path('add/', add_transaction, name='add_transaction'),
     path('edit/<int:pk>/', edit_transaction, name='edit_transaction'),
     path('delete/<int:pk>/', delete_transaction, name='delete_transaction'),
+    path('delete_profile/', delete_profile, name='delete_profile'),
 ]
 
 def api_form(request):

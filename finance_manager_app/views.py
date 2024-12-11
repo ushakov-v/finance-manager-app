@@ -172,6 +172,13 @@ def transactions_view(request):
     transactions = Transaction.objects.filter(user=request.user).order_by('-date')
     return render(request, 'app/../app/templates/transactions.html', {'transactions': transactions})
 
+@login_required
+def delete_profile(request):
+    """Удалить профиль пользователя"""
+    user = request.user
+    user.delete()  # Удаляем пользователя из базы данных
+    return redirect('login')  # Перенаправляем на главную страницу (или другую страницу)
+
 
 # Добавление новой транзакции
 @login_required
