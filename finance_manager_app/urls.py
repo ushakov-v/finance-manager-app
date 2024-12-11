@@ -29,7 +29,7 @@ router.register(r'transactions', TransactionViewSet)
 urlpatterns = [
     path('', transaction_list, name='transaction_list'),
     path('admin/', admin.site.urls),
-    path('app/', include('app.urls')),
+    #path('app/', include('app.urls')),
     path('api/', include(router.urls)),
     path('api/balance/', get_balance, name='get_balance'),
     path('register/', register_view, name='register'),
