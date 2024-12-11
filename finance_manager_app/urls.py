@@ -15,6 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
@@ -41,6 +42,8 @@ urlpatterns = [
     path('edit/<int:pk>/', edit_transaction, name='edit_transaction'),
     path('delete/<int:pk>/', delete_transaction, name='delete_transaction'),
     path('delete_profile/', delete_profile, name='delete_profile'),
+    path('test/', lambda request: HttpResponse('Test Page'), name='test_page')
+
 ]
 
 def api_form(request):
