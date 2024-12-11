@@ -24,5 +24,3 @@ README.md
 Dockerfile
 docker-compose.yml
 
-# Статические и медиа-файлы, если они не должны быть на сервере
-static/
