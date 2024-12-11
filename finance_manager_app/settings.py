@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
+
+from django.contrib import staticfiles
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -63,6 +65,7 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -157,15 +160,15 @@ X_FRAME_OPTIONS = 'DENY'
 # SECURE_SSL_REDIRECT = True
 # SECURE_HSTS_SECONDS = 3600
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',  # Папка для хранения ваших CSS, JS и изображений
-]
+STATIC_URL = '/static/'  # URL для доступа к статическим файлам
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Папка для хранения собранных статических файлов
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
