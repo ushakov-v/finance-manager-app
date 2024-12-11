@@ -42,7 +42,6 @@ urlpatterns = [
     path('edit/<int:pk>/', edit_transaction, name='edit_transaction'),
     path('delete/<int:pk>/', delete_transaction, name='delete_transaction'),
     path('delete_profile/', delete_profile, name='delete_profile'),
-    path('test/', lambda request: HttpResponse('Test Page'), name='test_page')
 
 ]
 

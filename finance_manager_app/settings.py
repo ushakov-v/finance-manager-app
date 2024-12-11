@@ -166,7 +166,10 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = '/static/'  # URL для доступа к статическим файлам
+STATIC_URL = 'finance_manager_app/static/'  # URL для доступа к статическим файлам
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # Директория 'static' в корне проекта
+]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Папка для хранения собранных статических файлов
 
 
