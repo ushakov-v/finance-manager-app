@@ -5,8 +5,8 @@ FROM python:3.9
 RUN pip install --upgrade pip
 
 # Копируем файл зависимостей
-COPY requirements.txt /app/requirements.txt
-RUN pip install -r /app/requirements.txt
+COPY requirements.txt /finance_manager_app/requirements.txt
+RUN pip install -r /finance_manager_app/requirements.txt
 
 # Копируем исходный код
 COPY . /app
