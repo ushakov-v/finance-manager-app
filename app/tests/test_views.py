@@ -9,80 +9,80 @@ class TransactionViewTestCase(TestCase):
 
     def setUp(self):
         """Создаем пользователя и транзакцию для тестов"""
-        self.user = User.objects.create_user(username='testuser', password='password')
+        self.user = User.objects.create_user(username='testuser', password='password')  # Создание тестового пользователя
         self.transaction = Transaction.objects.create(
-            transaction_type='income',
-            amount=100,
-            date=timezone.now(),
-            description='Test transaction',
-            user=self.user
+            transaction_type='income',  # Тип транзакции (доход)
+            amount=100,  # Сумма транзакции
+            date=timezone.now(),  # Дата транзакции
+            description='Test transaction',  # Описание транзакции
+            user=self.user  # Связываем транзакцию с созданным пользователем
         )
-        self.client.login(username='testuser', password='password')
+        self.client.login(username='testuser', password='password')  # Логинимся как тестовый пользователь
 
     def test_add_transaction_view(self):
         """Тестирование страницы добавления транзакции"""
-        url = reverse('add_transaction')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'add_transaction.html')
-        self.assertContains(response, 'Добавить новую транзакцию')
+        url = reverse('add_transaction')  # Получаем URL для страницы добавления транзакции
+        response = self.client.get(url)  # Выполняем GET-запрос
+        self.assertEqual(response.status_code, 200)  # Проверяем, что статус ответа 200 (успешно)
+        self.assertTemplateUsed(response, 'add_transaction.html')  # Проверяем, что используется правильный шаблон
+        self.assertContains(response, 'Добавить новую транзакцию')  # Проверяем наличие текста на странице
 
     def test_edit_transaction_view(self):
         """Тестирование страницы редактирования транзакции"""
-        url = reverse('edit_transaction', kwargs={'pk': self.transaction.pk})
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'edit_transaction.html')
-        self.assertContains(response, 'Редактировать транзакцию')
+        url = reverse('edit_transaction', kwargs={'pk': self.transaction.pk})  # URL для редактирования транзакции
+        response = self.client.get(url)  # Выполняем GET-запрос
+        self.assertEqual(response.status_code, 200)  # Проверка статуса ответа
+        self.assertTemplateUsed(response, 'edit_transaction.html')  # Проверка шаблона
+        self.assertContains(response, 'Редактировать транзакцию')  # Проверка текста на странице
 
     def test_delete_transaction_view(self):
         """Тестирование страницы удаления транзакции"""
-        url = reverse('delete_transaction', kwargs={'pk': self.transaction.pk})
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'delete_transaction.html')
-        self.assertContains(response, 'Вы уверены, что хотите удалить эту транзакцию?')
+        url = reverse('delete_transaction', kwargs={'pk': self.transaction.pk})  # URL для удаления транзакции
+        response = self.client.get(url)  # Выполняем GET-запрос
+        self.assertEqual(response.status_code, 200)  # Проверка статуса ответа
+        self.assertTemplateUsed(response, 'delete_transaction.html')  # Проверка шаблона
+        self.assertContains(response, 'Вы уверены, что хотите удалить эту транзакцию?')  # Проверка текста
 
     def test_transaction_list_view(self):
         """Тестирование страницы списка транзакций"""
-        url = reverse('transaction_list')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'transaction_list.html')
-        self.assertContains(response, 'Мои транзакции')
-        self.assertContains(response, 'Test transaction')
+        url = reverse('transaction_list')  # URL для списка транзакций
+        response = self.client.get(url)  # Выполняем GET-запрос
+        self.assertEqual(response.status_code, 200)  # Проверка статуса ответа
+        self.assertTemplateUsed(response, 'transaction_list.html')  # Проверка шаблона
+        self.assertContains(response, 'Мои транзакции')  # Проверка текста на странице списка
+        self.assertContains(response, 'Test transaction')  # Проверка наличия тестовой транзакции
 
     def test_post_add_transaction(self):
         """Тестирование POST-запроса для добавления транзакции"""
-        url = reverse('add_transaction')
+        url = reverse('add_transaction')  # URL для добавления транзакции
         data = {
-            'transaction_type': 'income',
-            'amount': 200,
-            'date': '2024-12-01',
-            'description': 'New test transaction'
+            'transaction_type': 'income',  # Тип транзакции
+            'amount': 200,  # Сумма транзакции
+            'date': '2024-12-01',  # Дата транзакции
+            'description': 'New test transaction'  # Описание новой транзакции
         }
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 302)  # редирект на страницу с транзакциями
-        self.assertTrue(Transaction.objects.filter(description='New test transaction').exists())
+        response = self.client.post(url, data)  # Выполняем POST-запрос с данными
+        self.assertEqual(response.status_code, 302)  # Проверка редиректа (302)
+        self.assertTrue(Transaction.objects.filter(description='New test transaction').exists())  # Проверка создания транзакции
 
     def test_post_edit_transaction(self):
         """Тестирование POST-запроса для редактирования транзакции"""
-        url = reverse('edit_transaction', kwargs={'pk': self.transaction.pk})
+        url = reverse('edit_transaction', kwargs={'pk': self.transaction.pk})  # URL для редактирования
         data = {
-            'transaction_type': 'income',
-            'amount': 150,
-            'date': '2024-12-01',
-            'description': 'Edited transaction'
+            'transaction_type': 'income',  # Новый тип транзакции
+            'amount': 150,  # Новая сумма транзакции
+            'date': '2024-12-01',  # Новая дата
+            'description': 'Edited transaction'  # Новое описание
         }
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 302)  # редирект на страницу с транзакциями
-        self.transaction.refresh_from_db()
-        self.assertEqual(self.transaction.amount, 150)
-        self.assertEqual(self.transaction.description, 'Edited transaction')
+        response = self.client.post(url, data)  # Выполняем POST-запрос
+        self.assertEqual(response.status_code, 302)  # Проверка редиректа (302)
+        self.transaction.refresh_from_db()  # Обновление экземпляра транзакции из базы данных
+        self.assertEqual(self.transaction.amount, 150)  # Проверка изменения суммы
+        self.assertEqual(self.transaction.description, 'Edited transaction')  # Проверка изменения описания
 
     def test_post_delete_transaction(self):
         """Тестирование POST-запроса для удаления транзакции"""
-        url = reverse('delete_transaction', kwargs={'pk': self.transaction.pk})
-        response = self.client.post(url)
-        self.assertEqual(response.status_code, 302)  # редирект после удаления
-        self.assertFalse(Transaction.objects.filter(pk=self.transaction.pk).exists())
+        url = reverse('delete_transaction', kwargs={'pk': self.transaction.pk})  # URL для удаления
+        response = self.client.post(url)  # Выполняем POST-запрос
+        self.assertEqual(response.status_code, 302)  # Проверка редиректа после удаления
+        self.assertFalse(Transaction.objects.filter(pk=self.transaction.pk).exists())  # Проверка, что транзакция удалена
